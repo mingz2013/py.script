@@ -14,8 +14,8 @@ sys.path.append(os.path.dirname("."))
 from parser.parser import Parser
 
 
-def cond(filename):
-    """cond"""
+def script(filename):
+    """script"""
     with codecs.open(filename, encoding='utf-8') as f:
         ast = Parser(filename, f.read()).parse_file()
         print('result: >>', ast.execute())
@@ -23,7 +23,7 @@ def cond(filename):
 
 def print_help():
     """print help"""
-    print("cond path")
+    print("script.py path")
 
 
 def main():
@@ -34,7 +34,7 @@ def main():
 
         filename = sys.argv[1]
 
-        cond(filename)
+        script(filename)
 
 
 if __name__ == "__main__":
