@@ -80,6 +80,10 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 <True关键字> ::= "True"
 <None关键字> ::= "None"
 <print关键字> ::= "print"
+<def关键字> ::= "def"
+<if关键字> ::= "if"
+<elif关键字> ::= "elif"
+<else关键字> ::= "else"
 ```
 
 ```bnf
@@ -92,6 +96,7 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 <kw_true> ::= "True"
 <kw_none> ::= "None"
 <kw_print> ::= "print"
+<kw_def> ::= "def"
 ```
 
 
@@ -464,15 +469,17 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 
 
 ```bnf
-<简单语句> ::= <表达式语句>  
+<小语句> ::= <表达式语句>  
                 |<赋值语句>
                 | <print语句>
+<简单语句> ::= <小语句> {<分号><小语句>}[<分号>]
 ```
 
 ```bnf
-<simple_statement> ::= <expression_statement>
+<small_statement> ::= <expression_statement>
                     | <assignment_statement>
                     | <print_statement>
+<simple_statement> ::= <small_statement>{<tk_semicolon><small_statement>}[<tk_semicolon>]
 ```
 
 #### 表达式语句
@@ -504,15 +511,37 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 ```
 
 
+
+
+
 ### 复合语句
 一行里面可以有多条语句
 最后的分号可有可无
 ```bnf
-<复合语句> ::= <简单语句> {<分号><简单语句>}[<分号>]
+<复合语句> ::= <简单语句> |<函数定义语句> | <if分支语句> | <for循环语句>
 ```
 
 ```bnf
-<compound_statement> ::= <simple_statement>{<tk_semicolon><simple_statement>}[<tk_semicolon>]
+<compound_statement> ::= <simple_statement> |
+```
+
+
+#### 函数定义语句
+```bnf
+<函数定义语句> ::= <def关键字> <标识符> <左小括号>[<形参列表>]<右小括号><语法块>
+<形参列表> ::= <标识符>{<逗号><表达式>}[<逗号>]
+<语句块> ::= <左大括号>{<语句>}<右大括号> 
+```
+
+
+#### if分支语句
+```bnf
+<if分支语句> ::= <if关键字> <表达式语句> <语句块> {<elif关键字><语句块>}[<else关键字><语句块>]
+```
+
+#### for循环语句
+```bnf
+<for循环语句> ::= <for关键字>
 ```
 
 
