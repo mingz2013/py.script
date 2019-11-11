@@ -33,6 +33,16 @@ kw_map = {
     'True': token.kw_true,
     'None': token.kw_none,
     'print': token.kw_print,
+
+    'if': token.kw_if,
+    'elif': token.kw_elif,
+    'else': token.kw_else,
+    'return': token.kw_return,
+
+    'for': token.kw_for,
+    'continue': token.kw_continue,
+    'break': token.kw_break,
+
 }
 
 
@@ -218,6 +228,10 @@ class Scanner(object):
                 tok = token.tk_semicolon
             elif ch == ',':
                 tok = token.tk_comma
+            elif ch == '{':
+                tok = token.tk_left_braces
+            elif ch == '}':
+                tok = token.tk_right_braces
             # elif ch == '\'':
             #     tok = token.tk_quotation_mark
             # elif ch == '"':

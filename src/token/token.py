@@ -19,6 +19,16 @@ kw_none = "kw_none"  # None
 
 kw_print = "kw_print"  # print
 
+kw_def = "kw_def"  # def
+kw_if = "kw_if"  # if
+kw_elif = "kw_elif"  # elif
+kw_else = "kw_else"  # else
+kw_return = "kw_return"  # return
+
+kw_for = "kw_for"  # for
+kw_continue = "kw_continue"  # continue
+kw_break = "kw_break"  # break
+
 # 标识符
 tk_identifier = "tk_identifier"  # 标识符
 
@@ -49,6 +59,8 @@ tk_left_parenthesis = "tk_left_parenthesis"  # "("
 tk_right_parenthesis = "tk_right_parenthesis"  # ")"
 tk_left_middle_bracket = "tk_left_middle_bracket"  # "["
 tk_right_middle_bracket = "tk_right_middle_bracket"  # "]"
+tk_left_braces = "tk_left_braces"  # {
+tk_right_braces = "tk_right_braces"  # }
 tk_semicolon = "tk_semicolon"  # ";"
 tk_comma = "tk_comma"  # ","
 tk_quotation_mark = "tk_quotation_mark"  # "'"
