@@ -80,10 +80,18 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 <True关键字> ::= "True"
 <None关键字> ::= "None"
 <print关键字> ::= "print"
+
 <def关键字> ::= "def"
+
 <if关键字> ::= "if"
 <elif关键字> ::= "elif"
 <else关键字> ::= "else"
+<return关键字> ::= "return"
+
+<for关键字> ::= "for"
+<continue关键字> ::= "continue"
+<break关键字> ::= "break"
+
 ```
 
 ```bnf
@@ -96,7 +104,18 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 <kw_true> ::= "True"
 <kw_none> ::= "None"
 <kw_print> ::= "print"
+
 <kw_def> ::= "def"
+
+<kw_if> ::= "if"
+<kw_elif> ::= "elif"
+<kw_else> ::= "else"
+<kw_return> ::= "return"
+
+<kw_for> ::= "for"
+<kw_continue> ::= "continue"
+<kw_break> ::= "break"
+
 ```
 
 
@@ -259,6 +278,8 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 <右小括号> ::= ")"
 <左中括号> ::= "["
 <右中括号> ::= "]"
+<左大括号> ::= "{"
+<右大括号> ::= "}"
 <分号> ::= ";"
 <逗号> ::= ","
 <单引号> ::= "'"
@@ -271,6 +292,8 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 <tk_right_parenthesis> ::= ")"
 <tk_left_middle_bracket> ::= "["
 <tk_right_middle_bracket> ::= "]"
+<tk_left_braces> ::= "{"
+<tk_right_braces> ::= "}"
 <tk_semicolon> ::= ";"
 <tk_comma> ::= ","
 <tk_quotation_mark> ::= "'"
@@ -529,8 +552,14 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 #### 函数定义语句
 ```bnf
 <函数定义语句> ::= <def关键字> <标识符> <左小括号>[<形参列表>]<右小括号><语法块>
-<形参列表> ::= <标识符>{<逗号><表达式>}[<逗号>]
+<形参列表> ::= <标识符>{<逗号><标识符>}[<逗号>]
 <语句块> ::= <左大括号>{<语句>}<右大括号> 
+```
+
+```bnf
+<function_def_statement> ::= <kw_def> <identifier> <tk_left_parenthesis> [<param_list>] <tk_right_parenthesis> <block>
+<param_list> ::= <identifier> {<tk_comma><identifier>}[<tk_comma>]
+<block> ::= <tk_left_braces>{<statement>}<tk_right_braces>
 ```
 
 
@@ -539,9 +568,17 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 <if分支语句> ::= <if关键字> <表达式语句> <语句块> {<elif关键字><语句块>}[<else关键字><语句块>]
 ```
 
+```bnf
+<if_statement> ::= <kw_if> <expression_statement> <block> {<kw_elif> <block>} [<kw_else> <block>]
+```
+
 #### for循环语句
 ```bnf
 <for循环语句> ::= <for关键字> <表达式语句> <语句块>
+```
+
+```bnf
+<for_statement> ::= <kw_for> <expression_statement> <block>
 ```
 
 
