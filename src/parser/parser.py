@@ -84,16 +84,72 @@ class Parser(object):
         return node
 
     def compound_statement(self):
-        """
-        复合语句
-        :return:
-        """
+        """复合语句"""
         print("compound_statement...")
 
-        node = ast.CompoundStatement()
+        if self.tok == token.kw_def:
+            node = self.def_statenemt()
+        elif self.tok == token.kw_if:
+            node = self.if_statement()
+        elif self.tok == token.kw_for:
+            node = self.for_statement()
+        else:
+            node = self.simple_statement()
 
-        node1 = self.simple_statement()
-        node.append_simple_statement(node1)
+        print("statement...>>", node)
+
+        return node
+
+    def return_statement(self):
+        """
+
+        :return:
+        """
+        return None
+
+    def continue_statement(self):
+        """
+
+        :return:
+        """
+        return None
+
+    def break_statement(self):
+        """
+
+        :return:
+        """
+        return None
+
+    def def_statenemt(self):
+        """def_statenemt"""
+        return None
+
+    def if_statement(self):
+        """
+
+        :return:
+        """
+        return None
+
+    def for_statement(self):
+        """
+
+        :return:
+        """
+        return None
+
+    def simple_statement(self):
+        """
+        简单语句
+        :return:
+        """
+        print("simple_statement...")
+
+        node = ast.SimpleStatement()
+
+        node1 = self.small_statement()
+        node.append_small_statement(node1)
         # self.next_token()
 
         while self.tok == token.tk_semicolon:
@@ -106,15 +162,15 @@ class Parser(object):
             if self.tok == token.tk_newline:
                 break
 
-            node1 = self.simple_statement()
-            node.append_simple_statement(node1)
+            node1 = self.small_statement()
+            node.append_small_statement(node1)
 
-        print("compound_statement...>>", node)
+        print("simple_statement...>>", node)
         return node
 
-    def simple_statement(self):
+    def small_statement(self):
         """
-        简单语句
+        小语句
         :return:
         """
         print("simple_statement...")

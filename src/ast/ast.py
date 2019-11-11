@@ -425,6 +425,41 @@ class Statement(Node):
 class SimpleStatement(Statement):
     """简单语句"""
 
+    def __init__(self):
+        self.small_statements = []
+
+    def __str__(self):
+        return str({
+            "name": self.__class__.__name__,
+            "small_statements": self.small_statements
+        })
+
+    def __repr__(self):
+        return repr({
+            "name": self.__class__.__name__,
+            "small_statements": self.small_statements
+        })
+
+    def append_small_statement(self, node):
+        """
+        append_small_statement
+        :param node:
+        :return:
+        """
+        self.small_statements.append(node)
+
+    def execute(self):
+        """exe"""
+        result = None
+        for statement in self.small_statements:
+            result = statement.execute()
+
+        return result
+
+
+class SmallStatement(Statement):
+    """SmallStatement"""
+
 
 class PrintStatement(SimpleStatement):
     """print"""
@@ -483,37 +518,6 @@ class ExpressionStatement(SimpleStatement):
 
 class CompoundStatement(Statement):
     """复合语句"""
-
-    def __init__(self):
-        self.simple_statements = []
-
-    def __str__(self):
-        return str({
-            "name": self.__class__.__name__,
-            "simple_statements": self.simple_statements
-        })
-
-    def __repr__(self):
-        return repr({
-            "name": self.__class__.__name__,
-            "simple_statements": self.simple_statements
-        })
-
-    def append_simple_statement(self, node):
-        """
-        append_simple_statement
-        :param node:
-        :return:
-        """
-        self.simple_statements.append(node)
-
-    def execute(self):
-        """exe"""
-        result = None
-        for statement in self.simple_statements:
-            result = statement.execute()
-
-        return result
 
 
 class File(Node):

@@ -545,7 +545,7 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 ```
 
 ```bnf
-<compound_statement> ::= <simple_statement> |
+<compound_statement> ::= <simple_statement> | <function_def_statement> | <if_statement> | <for_statement>
 ```
 
 
