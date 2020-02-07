@@ -15,12 +15,17 @@ from token import token
 
 def is_letter(ch):
     """is letter"""
-    return 'a' <= ch <= 'z' or 'A' <= ch <= 'Z' or ch == '_'
+    print("is_letter", ch)
+    if ch == -1:
+        return False
+    return ord('a') <= ord(ch) <= ord('z') or ord('A') <= ord(ch) <= ord('Z') or ch == ord('_')
 
 
 def is_digit(ch):
     """is digit"""
-    return '0' <= ch <= '9'
+    if ch == -1:
+        return False
+    return ord('0') <= ord(ch) <= ord('9')
 
 
 kw_map = {
