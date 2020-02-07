@@ -18,6 +18,9 @@ class Node(object):
         """exe"""
         return None
 
+    def to_bin(self):
+        """to bin"""
+
 
 class EndNode(Node):
     """终结符，叶子节点"""
