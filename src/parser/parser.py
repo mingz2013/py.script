@@ -197,14 +197,17 @@ class Parser(object):
         node = ast.IfStatement()
         expression = self.expression_statement()
         block = self.statement_block()
+
         node.append_elif(expression, block)
 
         while self.tok == token.kw_elif:
+            self.skip(token.kw_elif)
             expression = self.expression_statement()
             block = self.statement_block()
             node.append_elif(expression, block)
 
         if self.tok == token.kw_else:
+            self.skip(token.kw_else)
             block = self.statement_block()
             node.set_else_block(block)
 

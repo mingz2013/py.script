@@ -533,10 +533,28 @@ class DefStatement(Statement):
         self.expression_list = expression_list
         self.block = block
 
+    def __str__(self):
+        return str({
+            "name": self.__class__.__name__,
+            'ident': self.ident,
+            'expression_list': self.expression_list,
+            'block': self.block
+        })
+
+    def __repr__(self):
+        return str({
+            "name": self.__class__.__name__,
+            'ident': self.ident,
+            'expression_list': self.expression_list,
+            'block': self.block
+        })
+
     def execute(self):
         """
         exe
         """
+        # context.Symtab.add_var(self.ident.lit, )
+        return None
 
 
 class ParamList(Node):
@@ -550,6 +568,21 @@ class ParamList(Node):
     def append_identifier(self, ident):
         self.params.append(ident)
 
+    def __str__(self):
+        return str({
+            "name": self.__class__.__name__,
+            'params': self.params
+        })
+
+    def __repr__(self):
+        return str({
+            "name": self.__class__.__name__,
+            'params': self.params
+        })
+
+    def execute(self):
+        """"""
+
 
 class StatementBlock(Node):
     def __init__(self):
@@ -557,6 +590,24 @@ class StatementBlock(Node):
 
     def append_statement(self, node):
         self.statements.append(node)
+
+    def __str__(self):
+        return str({
+            "name": self.__class__.__name__,
+            'statements': self.statements,
+        })
+
+    def __repr__(self):
+        return str({
+            "name": self.__class__.__name__,
+            'statements': self.statements,
+        })
+
+    def execute(self):
+        ret = None
+        for s in self.statements:
+            ret = s.execute()
+        return ret
 
 
 class ForStatement(Statement):
@@ -567,6 +618,26 @@ class ForStatement(Statement):
     def __init__(self, expression, block):
         self.expression = expression
         self.block = block
+
+    def __str__(self):
+        return str({
+            "name": self.__class__.__name__,
+            'expression': self.expression,
+            'block': self.block
+        })
+
+    def __repr__(self):
+        return str({
+            "name": self.__class__.__name__,
+            'expression': self.expression,
+            'block': self.block
+        })
+
+    def execute(self):
+        ret = None
+        while self.expression.execute():
+            ret = self.block.execute()
+        return ret
 
 
 class IfStatement(Statement):
@@ -579,6 +650,20 @@ class IfStatement(Statement):
 
         self.else_block = None
 
+    def __str__(self):
+        return str({
+            "name": self.__class__.__name__,
+            'elifs': self.elifs,
+            'else_block': self.else_block
+        })
+
+    def __repr__(self):
+        return str({
+            "name": self.__class__.__name__,
+            'elifs': self.elifs,
+            'else_block': self.else_block
+        })
+
     def append_elif(self, expression, block):
         self.elifs.append({
             'expression': expression,
@@ -587,6 +672,12 @@ class IfStatement(Statement):
 
     def set_else_block(self, else_block):
         self.else_block = else_block
+
+    def execute(self):
+        for elif_obj in self.elifs:
+            if elif_obj['expression'].execute():
+                return elif_obj['block'].execute()
+        return self.else_block.execute()
 
 
 class File(Node):

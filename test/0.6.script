@@ -53,5 +53,15 @@ def a(b){
 
 
 if a {
+    print("1");
+}elif b{
+    print("2");
+}else{
+    print("3");
+}
 
+a = 4;
+for a > 0 {
+    print(a);
+    a = a - 1;
 }
