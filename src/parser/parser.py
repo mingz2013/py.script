@@ -70,7 +70,7 @@ class Parser(object):
                 continue
 
         if self.tok != token.EOF:
-            self.error("bad end...")  # 解析完一个完整的表达式后，没有结束
+            self.error("parse_file >> bad end...")  # 解析完一个完整的表达式后，没有结束
 
         print("File... >>", file_node)
 
@@ -88,7 +88,7 @@ class Parser(object):
         print("compound_statement...")
 
         if self.tok == token.kw_def:
-            node = self.def_statenemt()
+            node = self.function_def_statement()
         elif self.tok == token.kw_if:
             node = self.if_statement()
         elif self.tok == token.kw_for:
@@ -97,6 +97,95 @@ class Parser(object):
             node = self.simple_statement()
 
         print("statement...>>", node)
+
+        return node
+
+    def function_def_statement(self):
+        """def_statenemt"""
+        self.next_token()
+
+        ident = self.tok
+
+        self.next_token()
+
+        self.skip(token.tk_left_parenthesis)
+
+        param_list = self.param_list()
+
+        self.skip(token.tk_right_parenthesis)
+
+        block = self.statement_block()
+
+        node = ast.DefStatement(ident, param_list, block)
+
+        return node
+
+    def param_list(self):
+        """
+        param list, 函数形参列表
+        """
+        node = ast.ParamList()
+
+        if self.tok == token.tk_identifier:
+            node.append_identifier(self.tok)
+
+            while self.tok == token.tk_comma:
+                self.skip(token.tk_comma)
+
+                if self.tok == token.tk_identifier:
+                    node.append_identifier(self.tok)
+                else:
+                    self.error("param error")
+        else:
+            pass
+
+        return node
+
+    def statement_block(self):
+        """
+        语句块
+        """
+        self.skip(token.tk_left_braces)
+
+        node = ast.StatementBlock()
+
+        while self.tok != token.tk_right_braces:
+            node1 = self.statement()
+            node.append_statement(node1)
+
+        self.skip(token.tk_right_braces)
+
+        return node
+
+    def for_statement(self):
+        """
+
+        :return:
+        """
+
+        expression = self.expression_statement()
+        block = self.statement_block()
+        node = ast.ForStatement(expression, block)
+        return node
+
+    def if_statement(self):
+        """
+
+        :return:
+        """
+        node = ast.IfStatement()
+        expression = self.expression_statement()
+        block = self.statement_block()
+        node.append_elif(expression, block)
+
+        while self.tok == token.kw_elif:
+            expression = self.expression_statement()
+            block = self.statement_block()
+            node.append_elif(expression, block)
+
+        if self.tok == token.kw_else:
+            block = self.statement_block()
+            node.set_else_block(block)
 
         return node
 
@@ -115,24 +204,6 @@ class Parser(object):
         return None
 
     def break_statement(self):
-        """
-
-        :return:
-        """
-        return None
-
-    def def_statenemt(self):
-        """def_statenemt"""
-        return None
-
-    def if_statement(self):
-        """
-
-        :return:
-        """
-        return None
-
-    def for_statement(self):
         """
 
         :return:
@@ -415,13 +486,13 @@ class Parser(object):
             node = ast.ParenthForm(node)
             self.skip(token.tk_right_parenthesis)
 
-        elif self.tok == token.tk_left_middle_bracket:
+        elif self.tok == token.tk_left_middle_bracket:  # [
             self.skip(token.tk_left_middle_bracket)
             node = self.expression_list()
             node = ast.ListDisplay(node)
             self.skip(token.tk_right_middle_bracket)
 
-        elif self.tok == token.tk_identifier:
+        elif self.tok == token.tk_identifier:  #
             node = ast.Identifier(self.pos, self.tok, self.lit)
             self.next_token()
             if self.tok == token.tk_left_parenthesis:
@@ -444,7 +515,7 @@ class Parser(object):
 
         else:
             node = None
-            self.error('atom unexcept ', self.tok, self.lit, self.tok)
+            self.error('atom unexcept >>', self.pos, self.tok, self.lit, node)
 
         return node
 

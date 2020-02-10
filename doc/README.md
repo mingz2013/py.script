@@ -557,9 +557,9 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 ```
 
 ```bnf
-<function_def_statement> ::= <kw_def> <identifier> <tk_left_parenthesis> [<param_list>] <tk_right_parenthesis> <block>
+<function_def_statement> ::= <kw_def> <identifier> <tk_left_parenthesis> [<param_list>] <tk_right_parenthesis> <statement_block>
 <param_list> ::= <identifier> {<tk_comma><identifier>}[<tk_comma>]
-<block> ::= <tk_left_braces>{<statement>}<tk_right_braces>
+<statement_block> ::= <tk_left_braces>{<statement>}<tk_right_braces>
 ```
 
 
@@ -569,7 +569,7 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 ```
 
 ```bnf
-<if_statement> ::= <kw_if> <expression_statement> <block> {<kw_elif> <block>} [<kw_else> <block>]
+<if_statement> ::= <kw_if> <expression_statement> <statement_block> {<kw_elif> <statement_block>} [<kw_else> <statement_block>]
 ```
 
 #### for循环语句
@@ -578,7 +578,7 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 ```
 
 ```bnf
-<for_statement> ::= <kw_for> <expression_statement> <block>
+<for_statement> ::= <kw_for> <expression_statement> <statement_block>
 ```
 
 

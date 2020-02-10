@@ -523,6 +523,72 @@ class CompoundStatement(Statement):
     """复合语句"""
 
 
+class DefStatement(Statement):
+    """
+    定义语句，函数定义
+    """
+
+    def __init__(self, ident, expression_list, block):
+        self.ident = ident
+        self.expression_list = expression_list
+        self.block = block
+
+    def execute(self):
+        """
+        exe
+        """
+
+
+class ParamList(Node):
+    """
+    参数列表
+    """
+
+    def __init__(self):
+        self.params = []
+
+    def append_identifier(self, ident):
+        self.params.append(ident)
+
+
+class StatementBlock(Node):
+    def __init__(self):
+        self.statements = []
+
+    def append_statement(self, node):
+        self.statements.append(node)
+
+
+class ForStatement(Statement):
+    """
+    for 循环语句
+    """
+
+    def __init__(self, expression, block):
+        self.expression = expression
+        self.block = block
+
+
+class IfStatement(Statement):
+    """
+    if 分支语句
+    """
+
+    def __init__(self):
+        self.elifs = []
+
+        self.else_block = None
+
+    def append_elif(self, expression, block):
+        self.elifs.append({
+            'expression': expression,
+            'block': block
+        })
+
+    def set_else_block(self, else_block):
+        self.else_block = else_block
+
+
 class File(Node):
     """root"""
 
