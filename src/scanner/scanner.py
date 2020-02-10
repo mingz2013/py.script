@@ -48,6 +48,8 @@ kw_map = {
     'continue': token.kw_continue,
     'break': token.kw_break,
 
+    'def': token.kw_def,
+
 }
 
 

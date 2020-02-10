@@ -26,6 +26,10 @@ class Parser(object):
 
         self.next_token()
 
+    def skip_newlines(self):
+        while self.tok == token.tk_newline:
+            self.skip(token.tk_newline)
+
     def skip(self, tok):
         """跳过"""
         print("skip....", tok)
@@ -57,17 +61,13 @@ class Parser(object):
 
         file_node = ast.File()
 
-        while self.tok == token.tk_newline:
-            self.skip(token.tk_newline)
-            continue
+        self.skip_newlines()
 
         while self.tok != token.EOF:
             node = self.statement()
             file_node.append_statements(node)
             # self.next_token()
-            while self.tok == token.tk_newline:
-                self.skip(token.tk_newline)
-                continue
+            self.skip_newlines()
 
         if self.tok != token.EOF:
             self.error("parse_file >> bad end...")  # 解析完一个完整的表达式后，没有结束
@@ -87,6 +87,8 @@ class Parser(object):
         """复合语句"""
         print("compound_statement...")
 
+        self.skip_newlines()
+
         if self.tok == token.kw_def:
             node = self.function_def_statement()
         elif self.tok == token.kw_if:
@@ -96,13 +98,18 @@ class Parser(object):
         else:
             node = self.simple_statement()
 
+        self.skip_newlines()
+
         print("statement...>>", node)
 
         return node
 
     def function_def_statement(self):
-        """def_statenemt"""
-        self.next_token()
+        """
+        function_def_statement
+        """
+        print("function_def_statement....", self.tok, self.lit)
+        self.skip(token.kw_def)
 
         ident = self.tok
 
@@ -112,18 +119,22 @@ class Parser(object):
 
         param_list = self.param_list()
 
+        self.next_token()
+
         self.skip(token.tk_right_parenthesis)
 
         block = self.statement_block()
 
         node = ast.DefStatement(ident, param_list, block)
 
+        print("function_def_statement....>>", node)
         return node
 
     def param_list(self):
         """
         param list, 函数形参列表
         """
+        print("param_list....", self.tok, self.lit)
         node = ast.ParamList()
 
         if self.tok == token.tk_identifier:
@@ -145,7 +156,11 @@ class Parser(object):
         """
         语句块
         """
+        print("statement_block....", self.tok, self.lit)
+
         self.skip(token.tk_left_braces)
+
+        self.skip_newlines()
 
         node = ast.StatementBlock()
 
@@ -162,6 +177,9 @@ class Parser(object):
 
         :return:
         """
+        print("for_statement....", self.tok, self.lit)
+
+        self.skip(token.kw_for)
 
         expression = self.expression_statement()
         block = self.statement_block()
@@ -173,6 +191,9 @@ class Parser(object):
 
         :return:
         """
+        print("if_statement....", self.tok, self.lit)
+        self.skip(token.kw_if)
+
         node = ast.IfStatement()
         expression = self.expression_statement()
         block = self.statement_block()
