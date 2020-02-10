@@ -73,8 +73,6 @@ ERROR = "ERROR"
 EOF = "EOF"  # -1
 
 
-
-
 class Token(object):
     """token"""
     pass

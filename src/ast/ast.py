@@ -484,7 +484,7 @@ class PrintStatement(SimpleStatement):
 
     def execute(self):
         """exe"""
-        print("print >>>", self.expression_list.execute())
+        print("PrintStatement.execute print >>>", self.expression_list.execute())
         return None
 
 

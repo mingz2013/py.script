@@ -26,7 +26,7 @@
 可以定义变量，需要标识符。需要符号表管理。
 
 
-脚本的最后一句的结果，直接作为整个程序的返回输出。一般应用也就是一条语句。
+脚本的最后一句的结果，直接作为整个程序的返回输出。
 
 
 支持函数的定义和调用
@@ -39,6 +39,7 @@
 
 ## 设计概述
 脚本可以分多行，或由";"分割写到一行。
+
 整个脚本程序是一个utf8类型的字符串。
 
 src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -> 结果返回。 
@@ -538,8 +539,7 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 
 
 ### 复合语句
-一行里面可以有多条语句
-最后的分号可有可无
+
 ```bnf
 <复合语句> ::= <简单语句> |<函数定义语句> | <if分支语句> | <for循环语句>
 ```
@@ -622,7 +622,9 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 - env可以初始化一些全局的配置，用作当前环境
 - env可以绑定一些全局变量，用于引用业务逻辑上的数据
 
+
 # 参考
+
 ## sites
 - https://docs.python.org/zh-cn/3/reference/index.html
 - https://docs.python.org/zh-cn/3/reference/lexical_analysis.html
@@ -631,5 +633,6 @@ src->词法分析器，生成token流 -> 语法分析，生成AST -> AST执行 -
 - https://docs.python.org/zh-cn/3/reference/compound_stmts.html
 - https://docs.python.org/zh-cn/3/reference/toplevel_components.html
 - https://golang.google.cn/ref/spec
+
 ## books
 - 《自己动手写编译器、链接器》

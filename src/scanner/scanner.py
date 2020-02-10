@@ -51,7 +51,6 @@ kw_map = {
 }
 
 
-
 class Scanner(object):
     """
     Scanner
@@ -216,8 +215,6 @@ class Scanner(object):
                     tok = token.tk_equal
                     lit = self.src[pos: self.offset]
 
-
-
             # elif ch == '.':
             #     tok = token.tk_period
 
@@ -253,7 +250,7 @@ class Scanner(object):
 
     def error(self, *args):
         """error"""
-        print("error....", args)
+        print("Scanner.error >>", *args)
         exit(1)
 
 

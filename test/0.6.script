@@ -45,7 +45,13 @@ a
 
 
 
-def a(b):c=b+1;print(c);c;
+def a(b){
+    c=b+1;
+    print(c);
+    c;
+}
 
 
-if a:
+if a {
+
+}

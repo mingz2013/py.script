@@ -48,7 +48,7 @@ class Parser(object):
 
     def error(self, *args):
         """error"""
-        print("error....", self.pos, self.tok, self.lit, args)
+        print("Parser.error >>", self.pos, ", ", self.tok, ", ", self.lit, ",", *args)
         exit(1)
 
     def parse_file(self):
